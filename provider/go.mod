@@ -2,7 +2,10 @@ module github.com/maeda6uiui/terraform-provider-misskey
 
 go 1.26.5
 
-require github.com/hashicorp/terraform-plugin-framework v1.19.0
+require (
+	github.com/hashicorp/terraform-plugin-framework v1.19.0
+	github.com/hashicorp/terraform-plugin-framework-validators v0.19.0
+)
 
 require (
 	github.com/fatih/color v1.18.0 // indirect
