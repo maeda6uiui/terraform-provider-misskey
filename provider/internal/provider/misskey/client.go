@@ -45,6 +45,7 @@ func (c *MisskeyHttpClient) Do(method string, endpoint string, reqBody any) ([]b
 	if err != nil {
 		return nil, 0, err
 	}
+	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.accessToken))
 
 	resp, err := c.client.Do(req)
