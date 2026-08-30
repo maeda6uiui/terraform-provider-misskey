@@ -93,7 +93,7 @@ func (p *MisskeyProvider) Configure(
 	}
 	model.TimeoutSeconds = types.Int32Value(timeoutSeconds)
 
-	resp.ResourceData = model
+	resp.ResourceData = &model
 }
 
 func (p *MisskeyProvider) Resources(ctx context.Context) []func() resource.Resource {
