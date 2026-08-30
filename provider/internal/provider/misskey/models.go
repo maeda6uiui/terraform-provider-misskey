@@ -1,5 +1,15 @@
 package misskey
 
+type ErrorInfo struct {
+	Message string `json:"message"`
+	Code    string `json:"code"`
+	Id      string `json:"id"`
+}
+
+type ErrorResponse struct {
+	Error ErrorInfo `json:"error"`
+}
+
 type CreateNoteRequest struct {
 	Text           string   `json:"text"`
 	Visibility     string   `json:"visibility"`

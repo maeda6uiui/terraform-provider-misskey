@@ -177,6 +177,21 @@ func (r *NoteResource) Read(
 		return
 	}
 	if respStatus != http.StatusOK {
+		//Remove the resource from the state if the note doesn't exist
+		var errorRespModel *misskey.ErrorResponse
+		if err := json.Unmarshal(respBody, &errorRespModel); err != nil {
+			resp.Diagnostics.AddError(
+				"Invalid Response Format",
+				"Client returned a response that cannot be parsed",
+			)
+			return
+		}
+		if errorRespModel.Error.Code == "NO_SUCH_NOTE" {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
+		//Otherwise it's a client error
 		resp.Diagnostics.AddError(
 			"Client Error",
 			fmt.Sprintf("Failed to get a note, got status code: %d", respStatus),
