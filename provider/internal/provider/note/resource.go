@@ -148,7 +148,7 @@ func (r *NoteResource) Create(
 		return
 	}
 
-	model.Id = types.StringValue(respModel.Id)
+	model.Id = types.StringValue(respModel.CreatedNote.Id)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }

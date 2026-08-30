@@ -6,6 +6,10 @@ type CreateNoteRequest struct {
 	VisibleUserIds []string `json:"visibleUserIds"`
 }
 
-type CreateNoteResponse struct {
+type Note struct {
 	Id string `json:"id"`
+}
+
+type CreateNoteResponse struct {
+	CreatedNote Note `json:"createdNote"`
 }
