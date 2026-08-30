@@ -17,7 +17,7 @@ type MisskeyHttpClient struct {
 	client      *http.Client
 }
 
-func NewHttpClient(baseUrl string, timeoutSeconds int, accessToken string) *MisskeyHttpClient {
+func NewMisskeyHttpClient(baseUrl string, timeoutSeconds int, accessToken string) *MisskeyHttpClient {
 	timeout := time.Duration(timeoutSeconds) * time.Second
 	client := &http.Client{
 		Timeout: timeout,
