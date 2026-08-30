@@ -124,7 +124,7 @@ func (r *NoteResource) Create(
 		Visibility:     model.Visibility.ValueString(),
 		VisibleUserIds: visibleUserIds,
 	}
-	respBody, respStatus, err := r.misskeyClient.Post("/api/notes/create", &reqBody)
+	respBody, respStatus, err := r.misskeyClient.Post("api/notes/create", &reqBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Client Error",
@@ -168,7 +168,7 @@ func (r *NoteResource) Read(
 	reqBody := &misskey.ShowNoteRequest{
 		NoteId: model.Id.ValueString(),
 	}
-	respBody, respStatus, err := r.misskeyClient.Post("/api/notes/show", &reqBody)
+	respBody, respStatus, err := r.misskeyClient.Post("api/notes/show", &reqBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Client Error",
@@ -232,7 +232,7 @@ func (r *NoteResource) Delete(
 	reqBody := &misskey.DeleteNoteRequest{
 		NoteId: model.Id.ValueString(),
 	}
-	_, respStatus, err := r.misskeyClient.Post("/api/notes/delete", &reqBody)
+	_, respStatus, err := r.misskeyClient.Post("api/notes/delete", &reqBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Client Error",
