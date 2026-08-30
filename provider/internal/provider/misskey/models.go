@@ -7,7 +7,10 @@ type CreateNoteRequest struct {
 }
 
 type Note struct {
-	Id string `json:"id"`
+	Id             string   `json:"id"`
+	Text           string   `json:"text"`
+	Visibility     string   `json:"visibility"`
+	VisibleUserIds []string `json:"visibleUserIds"`
 }
 
 type CreateNoteResponse struct {
@@ -15,5 +18,9 @@ type CreateNoteResponse struct {
 }
 
 type DeleteNoteRequest struct {
+	NoteId string `json:"noteId"`
+}
+
+type ShowNoteRequest struct {
 	NoteId string `json:"noteId"`
 }

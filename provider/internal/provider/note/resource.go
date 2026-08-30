@@ -164,6 +164,45 @@ func (r *NoteResource) Read(
 		return
 	}
 
+	reqBody := &misskey.ShowNoteRequest{
+		NoteId: model.Id.ValueString(),
+	}
+	respBody, respStatus, err := r.misskeyClient.Post("/api/notes/show", &reqBody)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Failed to get a note, got error: %s", err),
+		)
+		return
+	}
+	if respStatus != http.StatusOK {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Failed to get a note, got status code: %d", respStatus),
+		)
+		return
+	}
+
+	var respModel *misskey.Note
+	if err := json.Unmarshal(respBody, &respModel); err != nil {
+		resp.Diagnostics.AddError(
+			"Invalid Response Format",
+			"Client returned a response that cannot be parsed",
+		)
+		return
+	}
+
+	model.Id = types.StringValue(respModel.Id)
+	model.Text = types.StringValue(respModel.Text)
+	model.Visibility = types.StringValue(respModel.Visibility)
+
+	visibleUserIds, diags := types.ListValueFrom(ctx, types.StringType, respModel.VisibleUserIds)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	model.VisibleUserIds = visibleUserIds
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
