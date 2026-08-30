@@ -50,6 +50,10 @@ func (p *MisskeyProvider) Schema(
 				Sensitive:           true,
 				MarkdownDescription: "Access token for the Misskey account",
 			},
+			"timeout_seconds": schema.Int32Attribute{
+				Optional:            true,
+				MarkdownDescription: "Timeout for HTTP requests to the Misskey server",
+			},
 		},
 	}
 }
@@ -79,8 +83,15 @@ func (p *MisskeyProvider) Configure(
 		)
 		return
 	}
-
 	model.AccessToken = types.StringValue(accessToken)
+
+	var timeoutSeconds int32
+	if !model.TimeoutSeconds.IsNull() && !model.TimeoutSeconds.IsUnknown() {
+		timeoutSeconds = model.TimeoutSeconds.ValueInt32()
+	} else {
+		timeoutSeconds = 5
+	}
+	model.TimeoutSeconds = types.Int32Value(timeoutSeconds)
 
 	resp.ResourceData = model
 }
