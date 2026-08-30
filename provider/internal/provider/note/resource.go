@@ -90,7 +90,8 @@ func (r *NoteResource) Schema(
 				},
 			},
 			"visible_user_ids": schema.ListAttribute{
-				Optional: true,
+				Optional:    true,
+				ElementType: types.StringType,
 				MarkdownDescription: "Note is visible to the users specified. " +
 					"Only valid if `visibility` is `specified`.",
 				PlanModifiers: []planmodifier.List{
