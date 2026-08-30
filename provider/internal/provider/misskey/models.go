@@ -13,3 +13,7 @@ type Note struct {
 type CreateNoteResponse struct {
 	CreatedNote Note `json:"createdNote"`
 }
+
+type DeleteNoteRequest struct {
+	NoteId string `json:"noteId"`
+}

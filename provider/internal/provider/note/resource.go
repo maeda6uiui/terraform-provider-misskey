@@ -189,5 +189,24 @@ func (r *NoteResource) Delete(
 		return
 	}
 
+	reqBody := &misskey.DeleteNoteRequest{
+		NoteId: model.Id.ValueString(),
+	}
+	_, respStatus, err := r.misskeyClient.Post("/api/notes/delete", &reqBody)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Failed to delete a note, got error: %s", err),
+		)
+		return
+	}
+	if respStatus != http.StatusNoContent {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Failed to delete a note, got status code: %d", respStatus),
+		)
+		return
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
