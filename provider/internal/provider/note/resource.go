@@ -14,15 +14,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/maeda6uiui/terraform-provider-misskey/internal/provider"
 	"github.com/maeda6uiui/terraform-provider-misskey/internal/provider/misskey"
+	"github.com/maeda6uiui/terraform-provider-misskey/internal/provider/model"
 )
 
 type NoteResource struct {
 	misskeyClient *misskey.MisskeyHttpClient
 }
 
-func NewDatabaseResource() resource.Resource {
+func NewNoteResource() resource.Resource {
 	return &NoteResource{}
 }
 
@@ -41,7 +41,7 @@ func (r *NoteResource) Configure(
 		return
 	}
 
-	data, ok := req.ProviderData.(*provider.MisskeyProviderModel)
+	data, ok := req.ProviderData.(*model.MisskeyProviderModel)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",

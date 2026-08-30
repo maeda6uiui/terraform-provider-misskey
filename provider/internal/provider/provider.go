@@ -9,6 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/maeda6uiui/terraform-provider-misskey/internal/provider/model"
+	"github.com/maeda6uiui/terraform-provider-misskey/internal/provider/note"
 )
 
 type MisskeyProvider struct {
@@ -56,7 +58,7 @@ func (p *MisskeyProvider) Configure(
 	ctx context.Context,
 	req provider.ConfigureRequest,
 	resp *provider.ConfigureResponse) {
-	var model MisskeyProviderModel
+	var model model.MisskeyProviderModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &model)...)
 	if resp.Diagnostics.HasError() {
@@ -84,7 +86,9 @@ func (p *MisskeyProvider) Configure(
 }
 
 func (p *MisskeyProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+	return []func() resource.Resource{
+		note.NewNoteResource,
+	}
 }
 
 func (p *MisskeyProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
